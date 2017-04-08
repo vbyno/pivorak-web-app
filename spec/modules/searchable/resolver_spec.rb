@@ -1,5 +1,5 @@
 RSpec.describe Searchable::Resolver do
-  let(:target)     { User }
+  let(:target)     { Profiling::User }
   let(:subject)    { described_class.new(target: target) }
   let(:config)     { double() }
   let(:definition) { Proc.new { pg_search_scope :by_name, against: [:first_name] } }

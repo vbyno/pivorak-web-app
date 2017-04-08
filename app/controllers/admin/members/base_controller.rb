@@ -6,7 +6,7 @@ module Admin
       private
 
       def member
-        @member ||= ::User.friendly.find(params[:member_id])
+        @member ||= Profiling::User.friendly.find(params[:member_id])
       end
     end
   end

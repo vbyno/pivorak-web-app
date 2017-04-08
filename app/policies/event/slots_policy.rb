@@ -17,7 +17,9 @@ class Event
       (limit_newbies - approved_visitors(:newbies).count) > 0
     end
 
-    def has_free_slot_for?(user)
+    def has_free_slot_for?(user_id)
+      user = Profiling::User.find(user_id)
+
       user.verified ? has_free_verified_slots? : has_free_newbies_slots?
     end
 
@@ -26,7 +28,7 @@ class Event
     def approved_visitors(type)
       return unless %i[verified newbies].include?(type)
 
-      visit_requests.approved.joins(:user).merge(User.send(type))
+      visit_requests.approved.joins(:user).merge(Profiling::User.send(type))
     end
   end
 end

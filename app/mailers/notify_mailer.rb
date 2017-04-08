@@ -11,13 +11,11 @@ class NotifyMailer < ApplicationMailer
     end
   end
 
-  def new_user_registered(user_id)
-    user = User.find(user_id)
-
+  def new_user_registered(full_name:, email:)
     mail(from: NO_REPLY_EMAIL ,
-         subject: I18n.t('mailers.notify_mailer.new_user_registered.subject', user: user.full_name),
+         subject: I18n.t('mailers.notify_mailer.new_user_registered.subject', user: full_name),
          to: PIVORAK_EMAIL) do |format|
-      format.html { I18n.t('mailers.notify_mailer.new_user_registered.body', user: user.full_name, email: user.email) }
+      format.html { I18n.t('mailers.notify_mailer.new_user_registered.body', user: full_name, email: email) }
     end
   end
 end

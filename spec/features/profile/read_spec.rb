@@ -10,10 +10,10 @@ RSpec.describe 'Profle READ' do
   end
 
   context 'when user is logged in' do
-    let(:user) { create(:user, :tester) }
+    let(:user) { create(:profiling_user, :tester) }
 
     before do
-      assume_logged_in(user)
+      assume_logged_in(user.id)
       visit '/profile'
     end
 

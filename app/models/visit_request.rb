@@ -12,7 +12,7 @@ class VisitRequest < ApplicationRecord
   validates :event_id, :user_id, presence: true
 
   belongs_to :event
-  belongs_to :user
+  belongs_to :user, class_name: 'Profiling::User'
 
   delegate :full_name, to: :user
 

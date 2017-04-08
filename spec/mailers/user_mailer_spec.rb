@@ -7,7 +7,7 @@ describe UserMailer do
     Rake::Task['email_templates:seed'].execute
   end
 
-  let(:user) { create(:user) }
+  let(:user) { create(:profiling_user) }
 
   describe '#confirmation_instructions' do
     let(:mail) { described_class.confirmation_instructions(user, 'abcde') }

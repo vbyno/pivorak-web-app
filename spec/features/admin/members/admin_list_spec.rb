@@ -1,9 +1,9 @@
 RSpec.describe 'Members LIST' do
-  let!(:user)  { create(:user, :admin) }
-  let!(:user2) { create(:user, first_name: 'Not', last_name: 'Admin') }
+  let!(:user)  { create(:profiling_user) }
+  let!(:user2) { create(:profiling_user, first_name: 'Not', last_name: 'Admin') }
 
   before do
-    assume_admin_logged_in(user)
+    assume_admin_logged_in(user.id)
     visit '/admin/members'
   end
 

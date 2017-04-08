@@ -1,23 +1,23 @@
 module Admin
   class MembersController < BaseController
-    helper_method :member, :members, :url, :admin_members_list
-    add_breadcrumb 'members.plural', :admin_members_path
+    helper_method :member, :url
     before_action :add_new_breadcump,  only: %i[new create]
     before_action :add_edit_breadcump, only: %i[edit update]
 
     def new
-      @member = User.new
+      @member = MemberForm.new
+
       render_form
     end
 
     def create
-      @member = User.new(users_params)
+      @member = RegisterMember.call(users_params)
 
-      react_to User::Create.call(member, users_params, synthetic: true)
+      react_to member
     end
 
     def update
-      react_to member.update_without_password(users_params)
+      react_to UpdateProfileInfo.(member.id, users_params)
     end
 
     private
@@ -27,23 +27,15 @@ module Admin
     end
 
     def member
-      @member ||= User.friendly.find(params[:id])
-    end
-
-    def members
-      @members ||= search_against(User).order(:id).page(params[:page])
+      @member ||= Profiling::User.friendly.find(params[:id])
     end
 
     def users_params
-      params.require(:member).permit(:email, :first_name, :last_name, :verified, :admin, :cover)
+      params.require(:member).permit(:email, :first_name, :last_name, :verified, :cover)
     end
 
     def url
       member.persisted? ? admin_member_path(member) : admin_members_path
-    end
-
-    def admin_members_list
-      @admin_members_list ||= User.admin
     end
   end
 end

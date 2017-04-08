@@ -30,9 +30,9 @@ class Event < ApplicationRecord
     has_many :"#{scope_name}_visit_requests", -> { send(scope_name) }, class_name: 'VisitRequest'
   end
 
-  has_many :visitors,                                       through: :visit_requests, source: :user
-  has_many :verified_visitors, -> { merge(User.verified) }, through: :visit_requests, source: :user
-  has_many :newbie_visitors,   -> { merge(User.newbies) },  through: :visit_requests, source: :user
+  has_many :visitors,                                                  through: :visit_requests, source: :user
+  has_many :verified_visitors, -> { merge(Profiling::User.verified) }, through: :visit_requests, source: :user
+  has_many :newbie_visitors,   -> { merge(Profiling::User.newbies) },  through: :visit_requests, source: :user
 
   scope :display, -> { where.not(status: PLANNED) }
 

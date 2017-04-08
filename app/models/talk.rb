@@ -8,10 +8,11 @@ class Talk < ApplicationRecord
   acts_as_taggable
 
   belongs_to :event
-  belongs_to :speaker, class_name: 'User'
+  belongs_to :speaker, class_name: 'Profiling::User'
   belongs_to :group
 
   scope :sorted, -> { order(:title) }
+  scope :by_speaker_id, ->(speaker_id) { where(speaker_id: speaker_id) }
 
   validates :title, presence: true
 

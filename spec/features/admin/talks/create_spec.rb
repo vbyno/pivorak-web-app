@@ -1,7 +1,9 @@
 RSpec.describe 'Talks CREATE' do
-  let(:admin) { create(:user, :admin) }
+  let(:user_id) { '624f6dd0-91f2-4026-a684-01924da4be84' }
+  let!(:user) { create(:profiling_user, id: user_id) }
+
   before do
-    assume_admin_logged_in(admin)
+    assume_admin_logged_in(user_id)
     visit '/admin/talks/new'
   end
 
@@ -40,12 +42,15 @@ RSpec.describe 'Talks CREATE' do
     it 'create talk with speaker' do
       fill_in 'Title',    with: 'Talk with Tags'
 
-      select admin.reverse_full_name, :from => 'talk[speaker_id]'
+      select reverse_full_name, from: 'talk[speaker_id]'
 
       click_button 'Create Talk'
 
-      expect(Talk.last.speaker).to eq admin
+      expect(Talk.last.speaker).to eq user
+    end
+
+    def reverse_full_name
+      "#{user.last_name} #{user.first_name}"
     end
   end
-
 end

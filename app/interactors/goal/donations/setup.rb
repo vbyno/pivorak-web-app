@@ -3,7 +3,7 @@ class Goal < ApplicationRecord
     class Setup
       include Interactor
 
-      delegate :user, :goal, :anonymous, to: :context
+      delegate :user_id, :goal, :anonymous, to: :context
 
       def call
         assign_description!
@@ -18,8 +18,12 @@ class Goal < ApplicationRecord
       end
 
       def assign_email!
-        return context.delete_field(:user) if anonymous
+        return context.delete_field(:user_id) if anonymous
         context.email = user&.email
+      end
+
+      def user
+        @user ||= Profiling::User.find_by(id: user_id)
       end
 
       def fail_context!

@@ -18,7 +18,7 @@ class GoalsController < ApplicationController
   private
 
   def donation_params
-    credit_card_params.merge(user: current_user, goal: goal)
+    credit_card_params.merge(user_id: current_user_id, goal: goal)
   end
 
   def credit_card_params

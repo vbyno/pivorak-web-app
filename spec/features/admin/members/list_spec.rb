@@ -1,5 +1,5 @@
 RSpec.describe 'Members LIST' do
-  let!(:user) { create(:user) }
+  let!(:user) { create(:profiling_user) }
 
   before do
     assume_admin_logged_in

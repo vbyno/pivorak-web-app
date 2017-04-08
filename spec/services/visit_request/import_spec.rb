@@ -2,9 +2,9 @@ require 'rails_helper'
 
 describe VisitRequest::Import do
   let(:event)       { create(:event, status: :passed) }
-  let(:user_a)      { create(:user) }
-  let(:user_b)      { create(:user) }
-  let(:user_c)      { create(:user) }
+  let!(:user_a)     { create(:profiling_user) }
+  let!(:user_b)     { create(:profiling_user) }
+  let!(:user_c)     { create(:profiling_user) }
   let(:separator)   { ', ' }
   let(:emails_list) { [user_a, user_b].map(&:email).join(separator) + ', fake@user.com' }
 

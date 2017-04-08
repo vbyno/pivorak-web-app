@@ -15,9 +15,9 @@ RSpec.describe 'Users Sign Up' do
       fill_in 'Password', with: '123456', match: :prefer_exact
       fill_in 'Password confirmation', with: '123456', match: :prefer_exact
 
-      expect { click_button 'Sign up' }.to change(User, :count).by(1)
+      expect { click_button 'Sign up' }.to change(Authentication::User, :count).by(1)
 
-      new_user = User.last
+      new_user = Profiling::User.last
       expect(new_user.first_name).to eq(first_name)
       expect(new_user.last_name).to eq(last_name)
       expect(new_user.email).to eq(email)
@@ -48,7 +48,7 @@ RSpec.describe 'Users Sign Up' do
         last_name = 'Medynskyi'
         email = Faker::Internet.email
 
-        create(:user, first_name: first_name, last_name: last_name)
+        create(:profiling_user, first_name: first_name, last_name: last_name)
 
         fill_in 'First name', with: first_name
         fill_in 'Last name', with: last_name
@@ -56,9 +56,9 @@ RSpec.describe 'Users Sign Up' do
         fill_in 'Password', with: '123456', match: :prefer_exact
         fill_in 'Password confirmation', with: '123456', match: :prefer_exact
 
-        expect { click_button 'Sign up' }.to change(User, :count).by(1)
+        expect { click_button 'Sign up' }.to change(Authentication::User, :count).by(1)
 
-        new_user = User.last
+        new_user = Profiling::User.last
         expect(new_user.slug).to eq("#{new_user.first_name.downcase}-#{new_user.last_name.downcase}-2")
       end
     end
@@ -68,7 +68,7 @@ RSpec.describe 'Users Sign Up' do
     it 'validates errors' do
       fill_in 'Email', with: ''
 
-      expect { click_button 'Sign up' }.to change(User, :count).by(0)
+      expect { click_button 'Sign up' }.to change(Authentication::User, :count).by(0)
 
       expect(active_jobs).to be_empty
     end

@@ -47,6 +47,16 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 
   config.include Warden::Test::Helpers
+  # .prepend(
+  #   Module.new do
+  #     def login_as(user_id, options = {})
+  #       mock_user = Struct.new(:id).new(user_id)
+
+  #       super(mock_user, options)
+  #     end
+  #   end
+  # )
+
   config.before :suite do
     Warden.test_mode!
   end

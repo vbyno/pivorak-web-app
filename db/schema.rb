@@ -10,19 +10,44 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170313055500) do
+ActiveRecord::Schema.define(version: 20170423105833) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
 
+  create_table "authentication_users", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet     "current_sign_in_ip"
+    t.inet     "last_sign_in_ip"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.index ["confirmation_token"], name: "index_authentication_users_on_confirmation_token", unique: true, using: :btree
+    t.index ["email"], name: "index_authentication_users_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_authentication_users_on_reset_password_token", unique: true, using: :btree
+  end
+
+  create_table "authorization_admins", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
+    t.datetime "created_at", null: false
+  end
+
   create_table "donations", force: :cascade do |t|
-    t.integer  "user_id"
     t.integer  "goal_id"
     t.decimal  "amount",     precision: 10, scale: 2
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.integer  "payment_id"
+    t.uuid     "user_id"
     t.index ["goal_id"], name: "index_donations_on_goal_id", using: :btree
     t.index ["payment_id"], name: "index_donations_on_payment_id", using: :btree
     t.index ["user_id"], name: "index_donations_on_user_id", using: :btree
@@ -103,9 +128,9 @@ ActiveRecord::Schema.define(version: 20170313055500) do
   end
 
   create_table "identities", force: :cascade do |t|
-    t.string  "uid"
-    t.string  "provider"
-    t.integer "user_id"
+    t.string "uid"
+    t.string "provider"
+    t.uuid   "user_id",  null: false
     t.index ["user_id"], name: "index_identities_on_user_id", using: :btree
   end
 
@@ -124,6 +149,17 @@ ActiveRecord::Schema.define(version: 20170313055500) do
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
     t.index ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable_type_and_searchable_id", using: :btree
+  end
+
+  create_table "profiling_users", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
+    t.string   "email",                      null: false
+    t.string   "first_name",                 null: false
+    t.string   "last_name",                  null: false
+    t.boolean  "verified",   default: false, null: false
+    t.string   "slug"
+    t.string   "cover"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "taggings", force: :cascade do |t|
@@ -158,43 +194,14 @@ ActiveRecord::Schema.define(version: 20170313055500) do
     t.string   "video_url"
     t.string   "slides_url"
     t.integer  "event_id"
-    t.integer  "speaker_id"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
     t.integer  "group_id"
     t.boolean  "published",   default: false
+    t.uuid     "speaker_id"
     t.index ["event_id"], name: "index_talks_on_event_id", using: :btree
     t.index ["slug"], name: "index_talks_on_slug", using: :btree
     t.index ["speaker_id"], name: "index_talks_on_speaker_id", using: :btree
-  end
-
-  create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "",    null: false
-    t.string   "encrypted_password",     default: "",    null: false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,     null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.inet     "current_sign_in_ip"
-    t.inet     "last_sign_in_ip"
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
-    t.boolean  "admin",                  default: false
-    t.string   "first_name"
-    t.string   "last_name"
-    t.boolean  "synthetic",              default: false
-    t.string   "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string   "slug"
-    t.boolean  "verified",               default: false
-    t.string   "cover"
-    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
-    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-    t.index ["slug"], name: "index_users_on_slug", using: :btree
   end
 
   create_table "venues", force: :cascade do |t|
@@ -210,13 +217,14 @@ ActiveRecord::Schema.define(version: 20170313055500) do
 
   create_table "visit_requests", force: :cascade do |t|
     t.integer  "event_id"
-    t.integer  "user_id"
     t.integer  "status"
     t.datetime "created_at",                                         null: false
     t.datetime "updated_at",                                         null: false
     t.boolean  "waiting_list", default: false
     t.boolean  "visited",      default: false
     t.uuid     "token",        default: -> { "uuid_generate_v4()" }
+    t.uuid     "user_id",                                            null: false
+    t.index ["user_id"], name: "index_visit_requests_on_user_id", using: :btree
   end
 
 end

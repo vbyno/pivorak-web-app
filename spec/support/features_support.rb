@@ -39,18 +39,18 @@ end
 #
 # or
 #
-# let(:my_user) { create :user, name: 'My User' }
-# assume_logged_in(my_user)
+# let(:my_user) { create :profiling_user, name: 'My User' }
+# assume_logged_in(my_user.id)
 #
-def assume_logged_in(user = nil)
-  user = user || create(:user)
-  login_as(user)
+def assume_logged_in(id = SecureRandom.uuid)
+  login_as(create(:authentication_user, id: id))
 end
 
 # Assume admin user is logged in
-def assume_admin_logged_in(admin = nil)
-  admin = admin || create(:user, :admin)
-  assume_logged_in(admin)
+def assume_admin_logged_in(id = SecureRandom.uuid)
+  assume_logged_in(id)
+
+  Authorization::Admin.find_by(id: id) || create(:authorization_admin, id: id)
 end
 
 # Contoller should auto generate flash message for reource

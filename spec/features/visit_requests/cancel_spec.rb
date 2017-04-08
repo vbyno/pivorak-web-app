@@ -1,10 +1,10 @@
 RSpec.describe 'Visit Requests CANCEL' do
   let(:event)          { create(:event) }
-  let(:user)           { create(:user)  }
+  let(:user)           { create(:profiling_user)  }
   let!(:visit_request) { create(:visit_request, user: user, event: event) }
 
   before do
-    assume_logged_in(user)
+    assume_logged_in(user.id)
     visit "/events/#{event.slug}"
   end
 

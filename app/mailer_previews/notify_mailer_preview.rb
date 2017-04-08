@@ -10,7 +10,7 @@ class NotifyMailerPreview
 
 
   def new_user_registered
-    user_id = User.last.id
+    user_id = Authentication::User.last.id
     NotifyMailer.new_user_registered user_id
   end
 

@@ -1,8 +1,9 @@
 RSpec.describe 'Members UPDATE' do
-  let!(:member) { create(:user, email: 'tester@example.com') }
+  let(:user_id) { '624f6dd0-91f2-4026-a684-01924da4be84' }
+  let!(:member) { create(:profiling_user, id: user_id, email: 'tester@example.com') }
 
   before do
-    assume_admin_logged_in
+    assume_admin_logged_in(user_id)
     visit "/admin/members/#{member.id}/edit"
   end
 

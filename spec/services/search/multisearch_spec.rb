@@ -11,7 +11,7 @@ RSpec.describe Search::Multisearch do
     context 'when provided with params' do
       let(:string) { 'example' }
 
-      let!(:user)  { create(:user, first_name: string) }
+      let!(:user)  { create(:profiling_user, first_name: string) }
       let!(:event) { create(:event, title: string) }
       let!(:talk)  { create(:talk, title: string) }
 
@@ -38,6 +38,7 @@ RSpec.describe Search::Multisearch do
           end
         end
       end
+
       context 'with default formatter' do
         context 'when there are matches' do
           let(:result) { described_class.call(query: string, formatter: Search::Formatters::Default) }
