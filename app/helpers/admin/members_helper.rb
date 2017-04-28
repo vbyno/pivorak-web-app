@@ -11,6 +11,11 @@ module Admin
         edit_admin_member_path(member), class: 'item'
     end
 
+    def admin_grant_admin_access_link(member)
+      link_to icon(:admin, member.admin? ? 'Take Away Admin Asses' : 'Grant Admin Access'),
+        admin_member_admin_access_path(member, method: (member.admin? ? :delete : :post)), class: 'item'
+    end
+
     def admin_member_link(member)
       link_to member.full_name, member_path(member), target: '_blank'
     end

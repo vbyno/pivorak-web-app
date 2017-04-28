@@ -1,13 +1,13 @@
 RSpec.describe Search::Resource do
   describe '.call' do
     let(:string) { 'example' }
-    let!(:user)  { create(:user, first_name: string) }
+    let!(:user)  { create(:profiling_user, first_name: string) }
 
     context 'when there are matches' do
       let(:result) { described_class.call(query: string, model: user.class) }
 
       it 'returns resource specific collection' do
-        expect(result).to be_an_instance_of User::ActiveRecord_Relation
+        expect(result).to be_an_instance_of Profiling::User::ActiveRecord_Relation
       end
 
       it 'returns correct amount of results' do

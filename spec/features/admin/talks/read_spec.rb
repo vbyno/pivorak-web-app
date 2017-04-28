@@ -36,8 +36,8 @@ RSpec.describe 'Talks READ' do
   end
 
   context 'with user assign' do
-    let(:user)       { create(:user, first_name: 'Super', last_name: 'User') }
-    let!(:talk_with_user)       { create(:talk, title: 'Test Talk with User', speaker_id: user.id) }
+    let(:user)            { create(:profiling_user, first_name: 'Super', last_name: 'User') }
+    let!(:talk_with_user) { create(:talk, title: 'Test Talk with User', speaker_id: user.id) }
 
     before do
       assume_admin_logged_in

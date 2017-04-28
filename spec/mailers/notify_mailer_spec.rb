@@ -29,8 +29,8 @@ describe NotifyMailer do
   end
 
   describe '#new_user_registered' do
-    let(:user) { create(:user) }
-    let(:mail) { described_class.new_user_registered(user.id) }
+    let(:user) { create(:profiling_user) }
+    let(:mail) { described_class.new_user_registered(email: user.email, full_name: user.full_name) }
 
     it "renders the headers" do
       expect(mail.subject).to eq I18n.t('mailers.notify_mailer.new_user_registered.subject', user: user.full_name)

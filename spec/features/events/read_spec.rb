@@ -1,10 +1,10 @@
 RSpec.describe 'Events READ' do
   let(:event) { create(:event) }
-  let(:user)  { create(:user, first_name: 'Attendee') }
+  let(:user)  { create(:profiling_user, first_name: 'Attendee') }
 
   describe 'attendees' do
-    let(:not_attendee) { create(:user, first_name: 'Not Attendee') }
-    let(:other_event_attendee) { create(:user, first_name: 'Other Event Attendee') }
+    let(:not_attendee) { create(:profiling_user, first_name: 'Not Attendee') }
+    let(:other_event_attendee) { create(:profiling_user, first_name: 'Other Event Attendee') }
 
     before do
       event

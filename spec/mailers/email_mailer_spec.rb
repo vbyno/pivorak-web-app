@@ -1,11 +1,10 @@
 require 'rails_helper'
 
 describe EmailMailer do
-  let(:user) { create(:user) }
+  let(:user) { create(:profiling_user) }
   let(:email) { create(:email) }
   let(:user_id) { user.id }
   let(:email_id) { email.id }
-
 
   describe "custom" do
     let(:mail) { EmailMailer.custom(email_id, user_id) }

@@ -2,13 +2,17 @@ module Admin
   class BaseController < ApplicationController
     layout 'admin'
 
-    before_action :authenticate_user!
+    before_action :authenticate_user!, :redirect_unless_admin
 
     def edit
       render_form
     end
 
     private
+
+    def redirect_unless_admin
+      redirect_to root_url unless admin?
+    end
 
     def search_against(model)
       Search::Resource.call params.merge(model: model)

@@ -6,18 +6,18 @@ class MembersController < ApplicationController
   private
 
   def member_talks
-    @member_talks ||= member.talks
+    @member_talks ||= Talk.by_speaker_id(member.id)
   end
 
   def visited_events
-    @visited_events ||= User::VisitedEvents.call(user_id: member.id)
+    @visited_events ||= Event::VisitedByUser.call(user_id: member.id)
   end
 
   def member
-    @member ||= User.friendly.find(params[:id])
+    @member ||= Profiling::User.friendly.find(params[:id])
   end
 
   def members
-    @members ||= User.all
+    @members ||= Profiling::User.all
   end
 end

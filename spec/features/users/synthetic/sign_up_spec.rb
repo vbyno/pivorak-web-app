@@ -1,5 +1,5 @@
 RSpec.describe 'Synthetic user try to sign up' do
-  let!(:synth_user) { create(:user, :synth) }
+  let!(:synth_user) { create(:authentication_user) }
 
   before do
     visit '/users/sign_up'

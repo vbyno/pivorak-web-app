@@ -1,5 +1,8 @@
-- title current_user.full_name
+- title profiling_user.full_name
 
-== render 'members/profile', member: current_user
+== render 'members/profile', member: profiling_user
 
+p
 = edit_profile_link
+p
+= link_to "Change email or password", edit_user_registration_path

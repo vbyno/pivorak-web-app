@@ -1,7 +1,7 @@
 RSpec.describe 'Search GET' do
   let(:string) { 'example' }
 
-  let!(:user)  { create(:user, first_name: string) }
+  let!(:user)  { create(:profiling_user, first_name: string) }
   let!(:event) { create(:event, title: string) }
   let!(:talk)  { create(:talk, title: string) }
 

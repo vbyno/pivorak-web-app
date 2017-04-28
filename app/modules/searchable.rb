@@ -2,7 +2,6 @@ module Searchable
   class << self
     def included(base)
       base.include(search_module)
-
       resolver.call(target: base)
     end
 

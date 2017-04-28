@@ -1,13 +1,10 @@
 - title t('members.edit_profile')
 
-= simple_form_for [current_user], url: profile_path do |f|
+= simple_form_for [profiling_user], url: profile_path do |f|
     .form-inputs
       = f.input :first_name
       = f.input :last_name
-      = f.input :email, required: true
-      = f.input :password
-      = f.input :password_confirmation
-      = gravatar_image(current_user)
+      = gravatar_image(profiling_user)
       = gravatar_website_link
 
     .form-actions

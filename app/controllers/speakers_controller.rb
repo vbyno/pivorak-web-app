@@ -6,6 +6,6 @@ class SpeakersController < ApplicationController
   private
 
   def speakers
-    @speakers ||= User.joins(:talks)
+    @speakers ||= Profiling::User.joins(:talks)
   end
 end

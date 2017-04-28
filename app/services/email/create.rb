@@ -10,6 +10,7 @@ class Email
       return false unless email.persisted?
 
       Email::Send.call(email: email, recipient_ids: recipient_ids)
+
       true
     end
 
@@ -20,7 +21,7 @@ class Email
     private
 
     def recipient_ids
-      User.real.ids
+      Authentication::User.ids
     end
 
     attr_reader :params

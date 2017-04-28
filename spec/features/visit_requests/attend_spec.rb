@@ -1,9 +1,10 @@
 RSpec.describe 'Visit Requests ATTEND' do
+  let(:user) { create :profiling_user }
   let(:event) { create(:event, limit_total: 2, limit_verified: 1) }
 
   context 'when user is logged in' do
     before do
-      assume_logged_in
+      assume_logged_in(user.id)
       visit "/events/#{event.slug}"
     end
 
@@ -30,10 +31,10 @@ RSpec.describe 'Visit Requests ATTEND' do
       end
 
       context 'as verified member' do
-        let(:verified_member) { create(:user, :verified) }
+        let(:verified_member) { create(:profiling_user, :verified) }
 
         before do
-          assume_logged_in(verified_member)
+          assume_logged_in(verified_member.id)
           click_link 'Attend'
         end
 

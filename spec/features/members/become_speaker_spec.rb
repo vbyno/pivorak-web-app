@@ -1,9 +1,10 @@
 RSpec.describe 'Become a speaker features' do
   context 'when user is logged in' do
-    let(:user) { create(:user) }
+    let(:user) { create(:profiling_user) }
 
     before do
-      assume_logged_in(user)
+      allow(request.env['warden']).to receive(:authenticate!).and_return(double(id: user.id))
+      # assume_logged_in(user.id)
       visit '/members'
     end
 

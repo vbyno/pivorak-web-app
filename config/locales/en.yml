@@ -206,9 +206,6 @@ en:
     plural: Speakers
     singular: Speaker
 
-  synthetic_user:
-    reset_password: We have already created account for you. Please check email for resetting your email
-
   pages:
     singular: Page
     plural: Pages
@@ -217,3 +214,8 @@ en:
     by_status: '%{resource} by status'
     per_month: '%{resource} per month'
     per_event: '%{resource} per event'
+
+  activerecord:
+      models:
+        member_form:
+          one: Member

@@ -1,5 +1,5 @@
 RSpec.describe 'Events LIST' do
-  let(:speaker) { create(:user) }
+  let(:speaker) { create(:profiling_user) }
   let!(:talk) { create(:talk, speaker: speaker) }
 
   before do

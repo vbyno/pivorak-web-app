@@ -1,9 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception, prepend: true
 
-  helper_method :admin?, :about_page, :contacts_page
-
-  delegate :admin?, to: :current_user, allow_nil: true
+  helper_method :admin?, :about_page, :contacts_page, :current_user_id
 
   def self.disabled_feature_until(release)
     until_version = Versionomy.parse(release.to_s)
@@ -14,6 +12,30 @@ class ApplicationController < ActionController::Base
         redirect_to(root_path)
       end
     end
+  end
+
+  private
+
+  def admin?
+    return @is_admin if defined?(@is_admin)
+
+    @is_admin = Authorization.admins_id?(current_user_id)
+  end
+
+  def current_user
+    raise NotImplementedError
+  end
+
+  def current_user_id
+    @current_user_id ||= warden.authenticate(scope: :user)&.id
+  end
+
+  def user_signed_in?
+    !!current_user_id
+  end
+
+  def user_session
+    warden.session(:user) if current_user_id
   end
 
   def current_version

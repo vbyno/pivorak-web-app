@@ -10,9 +10,9 @@ module Admin
       end
 
       def create
-        react_to User::Squash.call(
-          squashed_user: member,
-          into_user:     into_user
+        react_to SquashUser.call(
+          squashed_user_id: member.id,
+          into_user_id:     params.fetch(:into_user)
         )
       end
 
@@ -22,16 +22,12 @@ module Admin
         redirect_to admin_members_path
       end
 
-      def into_user
-        @into_user ||= ::User.find(params[:into_user])
-      end
-
       def header_title
         t 'members.plural'
       end
 
       def squash_into_users
-        @squash_into_users ||= User.where.not(id: member.id)
+        @squash_into_users ||= Profiling::User.where.not(id: member.id)
       end
     end
   end

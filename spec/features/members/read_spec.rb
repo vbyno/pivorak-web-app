@@ -1,5 +1,5 @@
 RSpec.describe 'Member READ' do
-  let(:member) { create(:user, :tester) }
+  let(:member) { create(:profiling_user, :tester) }
 
   describe 'single' do
     context 'any visitor'
@@ -23,11 +23,12 @@ RSpec.describe 'Member READ' do
   end
 
   describe 'member talks' do
-    context 'when user had talks' do
-      it 'shows member talks' do
-        user = create(:user)
-        talk = create(:talk, speaker: user)
+    let(:user) { create(:profiling_user) }
 
+    context 'when user had talks' do
+      let!(:talk) { create(:talk, speaker: user) }
+
+      it 'shows member talks' do
         visit "/members/#{user.id}"
 
         expect(page).to have_link(talk.title, "talks/#{talk.slug}")
@@ -35,10 +36,9 @@ RSpec.describe 'Member READ' do
     end
 
     context 'when talk does not belong to user' do
-      it 'shows member talks' do
-        user = create(:user)
-        talk = create(:talk)
+      let!(:talk) { create(:talk) }
 
+      it 'shows member talks' do
         visit "/members/#{user.id}"
 
         expect(page).to_not have_link(talk.title, "talks/#{talk.slug}")
@@ -47,8 +47,9 @@ RSpec.describe 'Member READ' do
   end
 
   describe 'member events' do
+    let(:user) { create(:profiling_user) }
+
     it 'shows member visited events' do
-      user = create(:user)
       visited_event = create(:event)
       not_visited_event = create(:event, title: 'not visited')
       not_visited_event_2 = create(:event, title: 'not visited-2')

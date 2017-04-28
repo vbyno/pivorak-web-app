@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :visit_request do
-    event
-    user
+    association :event
+    association :user, factory: :profiling_user
     status VisitRequest::PENDING
 
     trait :final do
